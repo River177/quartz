@@ -254,6 +254,22 @@ typora-copy-images-to: ./imgs
 4. **运输层**：为应用提供端到端的**进程间通信**（TCP/UDP），实现复用、可靠性、流量控制等。详见 [[Network/Chapter3|Chapter 3：运输层]]。
 5. **应用层**：为用户提供各种网络应用服务（HTTP、FTP、SMTP、DNS……）。相关内容在 [[Network/Chapter2|Chapter 2：应用层与协议]]。
 
+### **10. 传输数据单元(PDU)**
+
+- **应用层（Application）**：数据 / 报文（Data / Message）
+    
+- **表示层（Presentation）**：数据 / 报文（Data / Message）
+    
+- **会话层（Session）**：数据 / 报文（Data / Message）
+    
+- **传输层（Transport）**：**段（Segment，TCP）** / **数据报（Datagram，UDP）**
+    
+- **网络层（Network）**：**分组/包（Packet）**（也常叫 IP 数据报）
+    
+- **数据链路层（Data Link）**：**帧（Frame）**
+    
+- **物理层（Physical）**：**比特（Bit）**
+
 
 
 ## **五、网络性能（时延、丢包、吞吐量）**
@@ -423,6 +439,7 @@ $$
 - **曼彻斯特编码**：每个码元中间有跳变，从高到低表示 1，从低到高表示 0；具有自同步能力。
 - **差分曼彻斯特编码**：码元开始处有跳变表示 0，无跳变表示 1；中间必有跳变用于同步。
 
+![[20260107194947.png]]
 #### **8.2 数字数据 → 模拟信号（调制）**
 
 常见调制方式：
