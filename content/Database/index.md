@@ -1,5 +1,5 @@
 ---
-title: 数据库笔记索引
+title: Database
 description: 汇总 Database 目录下课程章节、历年试题与 SQL/触发器备考资料
 ---
 
