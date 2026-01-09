@@ -790,3 +790,23 @@ WHERE x.avg_grade = (
 )
 ORDER BY x.CDEPT, x.CNO;
 ```
+
+##### 8. 查询 **Computer Sci** 系所开设各门课程的最高分及取得最高分学生的学号
+
+```sql
+SELECT c.CNO,
+       c.CNAME,
+       t.max_grade AS MaxGrade,
+       sc.SNO      AS TopStudentSNO
+FROM C c
+JOIN (
+    SELECT sc.CNO, MAX(sc.GRADE) AS max_grade
+    FROM SC sc
+    GROUP BY sc.CNO
+) t ON t.CNO = c.CNO
+JOIN SC sc
+  ON sc.CNO = c.CNO AND sc.GRADE = t.max_grade
+WHERE c.CDEPT = 'Computer Sci'
+ORDER BY c.CNO, sc.SNO;
+
+```
