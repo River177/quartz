@@ -14,16 +14,16 @@
 - [x] OpenAPI 文档注解：为新增模块补充 utoipa 注解。
 
 ### A2. 数据库与模型（SQLx + Migration）
-- [ ] 新增迁移文件（SQLite）：
+- [x] 新增迁移文件（SQLite）：
   - `users`, `oauth_bindings`, `passkeys`, `access_tokens`
   - `echos`, `images`, `tags`, `echo_tags`
   - `todos`, `connects`, `inbox`
   - `key_values`, `temp_files`
   - `webhooks`, `dead_letters`
   - `follows`, `followers`, `inbox_statuses`
-- [ ] 在 `backend/src/models/` 建模（serde + sqlx FromRow）。
-- [ ] 统一时间字段（UTC + chrono）。
-- [ ] 关键索引/唯一约束（tag.name, passkeys.credential_id, echo_tags(echo_id,tag_id)）。
+- [x] 在 `backend/src/models/` 建模（serde + sqlx FromRow）。
+- [x] 统一时间字段（UTC + chrono）。
+- [x] 关键索引/唯一约束（tag.name, passkeys.credential_id, echo_tags(echo_id,tag_id)）。
 
 ### A3. Auth 与用户模块
 - [ ] `POST /api/auth/login`：用户登录（JWT）。
