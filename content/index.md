@@ -14,8 +14,8 @@ Welcome to my Knowledge Repo.
 
 我的笔记主要涵盖以下领域：
 
-- 课程笔记
-- 项目经验
+- 课程笔记如[[Database/index| 数据库]] [[Chapter1|计算机网络]]
+- 项目经验如 [[lighthouse-implementation-tasks | Lighthouse]]
 - 思考与反思
 
 ---
