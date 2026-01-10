@@ -8,10 +8,10 @@
 ## A. 后端实现任务（Axum/Rust）
 
 ### A1. 基础工程与模块骨架
-- [ ] 补齐 `backend/src/routes.rs`：按模块注册路由（echo、media、settings、auth、connect、inbox、todo、fediverse、dashboard、webhook、backup）。
-- [ ] 统一错误响应与结果包装（对齐现有 `backend/src/error.rs` 风格）。
-- [ ] JWT 中间件（Bearer token + public route 例外）。
-- [ ] OpenAPI 文档注解：为新增模块补充 utoipa 注解。
+- [x] 补齐 `backend/src/routes.rs`：按模块注册路由（echo、media、settings、auth、connect、inbox、todo、fediverse、dashboard、webhook、backup）。
+- [x] 统一错误响应与结果包装（对齐现有 `backend/src/error.rs` 风格）。
+- [x] JWT 中间件（Bearer token + public route 例外）。
+- [x] OpenAPI 文档注解：为新增模块补充 utoipa 注解。
 
 ### A2. 数据库与模型（SQLx + Migration）
 - [ ] 新增迁移文件（SQLite）：
