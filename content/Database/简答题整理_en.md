@@ -54,6 +54,19 @@ This section tests understanding of low-level performance mechanisms.
 * **Index efficiency analysis (high frequency):**
     * **Question:** Does a dense index always improve efficiency? Why can a non-clustered index be worse when the proportion of qualifying tuples is high (>20%)?
     * **Key points:** Not necessarily. If the table is small or the result set is large (low selectivity), a non-clustered index causes many **random I/Os**, which can be slower than a full table scan (sequential I/O).
+    * **Detailed concepts: dense/sparse, clustered/non-clustered**
+        * **Dense index**: one index entry per search-key value (or per record); fast lookup but larger index and higher maintenance cost.
+        * **Sparse index**: index entries only for some search-key values (often one per data block); requires data ordered by the index key; smaller index but needs a block scan after locating the block.
+        * **Clustered index**: data records are stored in physical order of the index key, usually at most one per table; efficient for range queries.
+        * **Non-clustered index**: index order is independent of physical storage; can have multiple; requires a lookup back to the base table (RID/primary key), and large result sets cause many random I/Os.
+        * **Relation**: dense/sparse describes index entry coverage, clustered/non-clustered describes physical ordering; they are orthogonal choices.
+    * **B-tree vs B+ tree vs balanced BST**
+        * **Structure**: a balanced BST has at most 2 children per node; B-tree/B+ tree are multi-way balanced trees with high fan-out.
+        * **Height and I/O**: high fan-out makes B-tree/B+ tree shorter with fewer disk I/Os; BSTs are better in memory but deeper on disk.
+        * **Data placement**: B-tree stores keys and record pointers in internal and leaf nodes; B+ tree stores keys only in internal nodes and all data in leaves.
+        * **Range scans**: B+ tree leaves are linked in key order, making range/sort/full scans fast; B-tree needs more traversal.
+        * **Point lookup**: B-tree may find records in internal nodes; B+ tree always reaches a leaf, but smaller internal nodes mean higher fan-out and more stable I/O.
+        * **Use in DBMS**: B+ tree is the common choice for indexes; balanced BSTs (AVL/red-black) are mainly for in-memory structures.
     * **Question:** Why is a primary index usually built on the primary key? Why is the B-tree mainstream?
     * **Example:** Compute the B+ tree order (degree). If the block size is 492B and pointer size is 6B, and Sailors record fields are sid 2B, sname 4B, rating 1B, age 1B, master 2B, delete flag 1B, then:
         1. **rating clustered index**: index node satisfies `2k*1 + (2k+1)*6 <= 492`, leaf node satisfies `2k*1 + 2*6 + 2k*6 <= 492`, solve for k.
