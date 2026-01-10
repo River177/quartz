@@ -26,81 +26,81 @@
 - [x] 关键索引/唯一约束（tag.name, passkeys.credential_id, echo_tags(echo_id,tag_id)）。
 
 ### A3. Auth 与用户模块
-- [ ] `POST /api/auth/login`：用户登录（JWT）。
-- [ ] `POST /api/auth/register`：用户注册（可控开关）。
-- [ ] `GET /api/users/me`：当前用户信息。
-- [ ] `PATCH /api/users/me`：更新用户信息。
-- [ ] `DELETE /api/users/:id`：删除用户（管理员）。
-- [ ] 角色/权限模型：admin 与普通用户。
-- [ ] OAuth2/OIDC 绑定流程（如需，先建表与接口骨架）。
-- [ ] Passkey（WebAuthn）流程（后期里程碑可延后）。
+- [x] `POST /api/auth/login`：用户登录（JWT）。
+- [x] `POST /api/auth/register`：用户注册（可控开关）。
+- [x] `GET /api/users/me`：当前用户信息。
+- [x] `PATCH /api/users/me`：更新用户信息。
+- [x] `DELETE /api/users/:id`：删除用户（管理员）。
+- [x] 角色/权限模型：admin 与普通用户。
+- [x] OAuth2/OIDC 绑定流程（如需，先建表与接口骨架）。
+- [x] Passkey（WebAuthn）流程（后期里程碑可延后）。
 
 ### A4. Echo 核心模块
-- [ ] Echo CRUD：
+- [x] Echo CRUD：
   - `POST /api/echo`
   - `PATCH /api/echo/:id`
   - `DELETE /api/echo/:id`
   - `GET /api/echo/:id`
   - `GET /api/echo/page`（分页）
   - `GET /api/echo/today`
-- [ ] Echo 结构校验：内容/图片/扩展卡片至少一项。
-- [ ] 布局枚举约束（waterfall/grid/horizontal/carousel）。
-- [ ] 标签绑定与使用计数（事务内处理）。
-- [ ] 点赞接口：
+- [x] Echo 结构校验：内容/图片/扩展卡片至少一项。
+- [x] 布局枚举约束（waterfall/grid/horizontal/carousel）。
+- [x] 标签绑定与使用计数（事务内处理）。
+- [x] 点赞接口：
   - `PUT /api/echo/:id/like`
 
 ### A5. 媒体与存储模块
-- [ ] 图片上传/删除（multipart + 本地存储）。
-- [ ] 音频上传/删除（multipart + 本地存储）。
-- [ ] S3 预签名上传：
+- [x] 图片上传/删除（multipart + 本地存储）。
+- [x] 音频上传/删除（multipart + 本地存储）。
+- [x] S3 预签名上传：
   - `PUT /api/storage/s3/presign`
-- [ ] TempFile 回收任务（防止孤儿文件）。
+- [x] TempFile 回收任务（防止孤儿文件）。
 
 ### A6. RSS 模块
-- [ ] RSS/Atom 生成（feed-rs 或 rss crate）。
-- [ ] `GET /rss` 输出 XML。
-- [ ] 输出字段映射：标题、链接、作者、发布时间、内容摘要。
+- [x] RSS/Atom 生成（feed-rs 或 rss crate）。
+- [x] `GET /rss` 输出 XML。
+- [x] 输出字段映射：标题、链接、作者、发布时间、内容摘要。
 
 ### A7. Connect 模块
-- [ ] Connect 表 CRUD：
+- [x] Connect 表 CRUD：
   - `POST /api/connect`
   - `DELETE /api/connect/:id`
-- [ ] Connect 公共读取：
+- [x] Connect 公共读取：
   - `GET /api/connect`
   - `GET /api/connect/list`
   - `GET /api/connects/info`
-- [ ] 并发抓取 + 超时 + 重试策略（tokio + timeout）。
+- [x] 并发抓取 + 超时 + 重试策略（tokio + timeout）。
 
 ### A8. Inbox 模块
-- [ ] Inbox CRUD：
+- [x] Inbox CRUD：
   - `GET /api/inbox`（分页+搜索）
   - `GET /api/inbox/unread`
   - `PUT /api/inbox/:id/read`
   - `DELETE /api/inbox/:id`
   - `DELETE /api/inbox`
-- [ ] Admin-only 权限。
+- [x] Admin-only 权限。
 
 ### A9. Todo 模块
-- [ ] Todo CRUD：
+- [x] Todo CRUD：
   - `GET /api/todo`
   - `POST /api/todo`
   - `PUT /api/todo/:id`
   - `DELETE /api/todo/:id`
-- [ ] 最大未完成数量限制（3）。
+- [x] 最大未完成数量限制（3）。
 
 ### A10. Settings 模块
-- [ ] System Setting（key_value 存 JSON）：
+- [x] System Setting（key_value 存 JSON）：
   - `GET /api/settings`
   - `PUT /api/settings`
-- [ ] Comment 设置、OAuth2 设置、S3 设置、Fediverse 设置：
+- [x] Comment 设置、OAuth2 设置、S3 设置、Fediverse 设置：
   - `GET/PUT /api/settings/{comment|oauth2|s3|fediverse}`
-- [ ] Agent 设置：
+- [x] Agent 设置：
   - `GET /api/agent/info`
   - `GET/PUT /api/agent/settings`
-- [ ] Backup Schedule：
+- [x] Backup Schedule：
   - `GET /api/backup/schedule`
   - `POST /api/backup/schedule`
-- [ ] Access Tokens：
+- [x] Access Tokens：
   - `GET /api/access-tokens`
   - `POST /api/access-tokens`
   - `DELETE /api/access-tokens/:id`
@@ -146,30 +146,30 @@
 ## B. 前端实现任务（Vue 3 + Pinia）
 
 ### B1. API Client
-- [ ] `frontend/src/api/` 新增模块：
+- [x] `frontend/src/api/` 新增模块：
   - `echo.ts`, `media.ts`, `settings.ts`, `auth.ts`, `connect.ts`
   - `inbox.ts`, `todo.ts`, `fediverse.ts`, `dashboard.ts`, `webhook.ts`, `backup.ts`
-- [ ] 统一错误处理与 token 注入（复用 `frontend/src/api/client.ts`）。
+- [x] 统一错误处理与 token 注入（复用 `frontend/src/api/client.ts`）。
 
 ### B2. Store 模块
-- [ ] `stores/echo.ts`：echo 列表/详情/分页。
-- [ ] `stores/settings.ts`：系统设置/存储设置/联邦设置。
-- [ ] `stores/auth.ts`：登录态、token、用户信息。
-- [ ] `stores/connect.ts`：connect 列表与 info。
-- [ ] `stores/inbox.ts`：收件箱、未读、分页。
-- [ ] `stores/dashboard.ts`：指标数据与 ws 订阅。
+- [x] `stores/echo.ts`：echo 列表/详情/分页。
+- [x] `stores/settings.ts`：系统设置/存储设置/联邦设置。
+- [x] `stores/auth.ts`：登录态、token、用户信息。
+- [x] `stores/connect.ts`：connect 列表与 info。
+- [x] `stores/inbox.ts`：收件箱、未读、分页。
+- [x] `stores/dashboard.ts`：指标数据与 ws 订阅。
 
 ### B3. 视图与组件对齐
-- [ ] Home/Editor：Echo 发布与列表（复用 `views/Home.vue`/`views/Editor.vue`）。
-- [ ] Upload：媒体上传（复用 `views/Upload.vue`）。
-- [ ] Charts：指标展示（复用 `views/Charts.vue`）。
-- [ ] Panel：设置中心（新增系统/存储/联邦/备份/Webhook/AccessToken）。
-- [ ] Connect/Hub：跨实例列表与概览。
-- [ ] Inbox/Todo：管理页（列表 + 操作）。
+- [x] Home/Editor：Echo 发布与列表（复用 `views/Home.vue`/`views/Editor.vue`）。
+- [x] Upload：媒体上传（复用 `views/Upload.vue`）。
+- [x] Charts：指标展示（复用 `views/Charts.vue`）。
+- [x] Panel：设置中心（新增系统/存储/联邦/备份/Webhook/AccessToken）。
+- [x] Connect/Hub：跨实例列表与概览。
+- [x] Inbox/Todo：管理页（列表 + 操作）。
 
 ### B4. 路由与权限
-- [ ] 路由元信息标记需要登录/管理员。
-- [ ] 未登录引导与错误页面（`views/NotFound.vue` 已存在）。
+- [x] 路由元信息标记需要登录/管理员。
+- [x] 未登录引导与错误页面（`views/NotFound.vue` 已存在）。
 
 ## C. 工程与运维
 
