@@ -453,7 +453,7 @@ sequenceDiagram
 
 
 
-### 11.
+### 11. 
 ![[Pasted image 20260108174411.png]]
 ![[Pasted image 20260108174415.png]]
 带宽 $$ R = 1 Gbps $$
@@ -462,7 +462,7 @@ sequenceDiagram
 
 分组长度 $$ L = 1500 Bytes = 1500 \times 8 bits = 12000bits $$
 
-$$BDP = R \times RTT = (10 \times 10^9 \text{ bits/s}) \times (30 \times 10^{-3} \text{ s}) = 300 \times 10^6 \text{ bits (即 300 Mbits)}$$
+$$BDP = R \times RTT = (1 \times 10^9 \text{ bits/s}) \times (30 \times 10^{-3} \text{ s}) = 30 \times 10^6 \text{ bits (即 30 Mbits)}$$
 
 利用率 $U = \frac{W \times L}{BDP}$
 
@@ -472,12 +472,12 @@ $$\frac{W \times L}{BDP} > 0.9$$
 
 代入数值：
 
-$$\frac{W \times 12,000 \text{ bits}}{300 \times 10^6 \text{ bits}} > 0.9$$
+$$\frac{W \times 12,000 \text{ bits}}{30 \times 10^6 \text{ bits}} > 0.9$$
 
-$$W > 22,500$$
+$$W > 22,50$$
 
-所以窗口长度至少为22501个分组
-
+所以窗口长度至少为2251个分组
+ [[Chapter3#^439623 | 信道利用率计算]]
 
 
 ## Chapter 3-2
@@ -489,6 +489,15 @@ $$W > 22,500$$
 ### 2.  C
 
 ![[Pasted image 20260108174609.png]]
+
+思路（默认 **FIN 段不携带数据**，这是这类题的标准假设）：
+- 甲发 SYN 时序号 = 1000。**SYN 会占用 1 个序号**，所以甲发送的**第 1 个应用层数据字节**的序号是
+    $1000+1 = 1001$
+- 断开时甲发 FIN 段序号 = 5001。FIN（不带数据时）对应的是“**下一个将要发送的序号**”，也就是
+    $5001 = 1001 + \text{已发送数据字节数}$
+- 所以已发送应用层数据字节数
+    $5001 - 1001 = 4000$
+> 备注：如果题目允许 FIN 携带数据，会多一个未知量；但常规考法默认 FIN 不带数据，因此答案唯一为 4000。
 
 ### 3. 
 ![[Pasted image 20260108174614.png]]
