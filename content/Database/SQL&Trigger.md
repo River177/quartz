@@ -810,3 +810,229 @@ WHERE c.CDEPT = 'Computer Sci'
 ORDER BY c.CNO, sc.SNO;
 
 ```
+
+
+#### 补充练习1
+表：
+- Owner(OwnerId, Oname, Phone, City, IsVIP)    
+- Pet(PetId, PetName, Species, Breed, BirthDate, OwnerId)    
+- Visit(VisitId, PetId, VisitDate, Diagnosis, Cost)
+
+##### (1) 查询每只宠物总诊疗费用，只返回总费用 > 800 的宠物名、种类、总费用
+
+```sql
+SELECT
+  p.PetName,
+  p.Species,
+  SUM(v.Cost) AS TotalCost
+FROM Pet p
+JOIN Visit v ON v.PetId = p.PetId
+GROUP BY p.PetId, p.PetName, p.Species
+HAVING SUM(v.Cost) > 800;
+```
+
+> 用 `JOIN` 是因为要有就诊记录才能算总费用；如果想把“没看过病”的也算 0，可改成 LEFT JOIN + COALESCE，但题目只要>800即可。
+
+---
+
+##### (2) 找出所有 VIP 主人的宠物中，从未进行过任何诊疗的宠物名字和品种
+
+用 `NOT EXISTS` 最稳：
+```sql
+SELECT
+  p.PetName,
+  p.Breed
+FROM Owner o
+JOIN Pet p ON p.OwnerId = o.OwnerId
+WHERE o.IsVIP = 'Y'
+  AND NOT EXISTS (
+    SELECT 1
+    FROM Visit v
+    WHERE v.PetId = p.PetId
+  );
+```
+
+（也可用 LEFT JOIN + v.PetId IS NULL，但 EXISTS 更清晰。）
+
+---
+
+##### (3) 列出 2024 年就诊次数最多的前 3 位主人姓名及其就诊宠物数量（按就诊次数降序）
+
+这里题意里“就诊次数最多”= **Visit 记录条数最多**（按主人名汇总）。  
+“就诊宠物数量”= 该主人在 2024 年有过就诊的 **不同宠物数**（DISTINCT PetId）。
+
+```sql
+SELECT
+  o.Oname,
+  COUNT(*) AS VisitCount,
+  COUNT(DISTINCT v.PetId) AS PetCount
+FROM Owner o
+JOIN Pet p ON p.OwnerId = o.OwnerId
+JOIN Visit v ON v.PetId = p.PetId
+WHERE YEAR(v.VisitDate) = 2024
+GROUP BY o.OwnerId, o.Oname
+ORDER BY VisitCount DESC
+LIMIT 3;
+```
+
+
+---
+
+##### (4) 使用 EXISTS：找出养了至少两只不同种类宠物的主人姓名
+
+核心：存在另一只宠物，且 Species 不同。
+```sql
+SELECT
+  o.Oname
+FROM Owner o
+WHERE EXISTS (
+  SELECT 1
+  FROM Pet p1
+  WHERE p1.OwnerId = o.OwnerId
+    AND EXISTS (
+      SELECT 1
+      FROM Pet p2
+      WHERE p2.OwnerId = o.OwnerId
+        AND p2.Species <> p1.Species
+    )
+);
+```
+
+（等价更简洁的 EXISTS 版本：）
+
+```sql
+SELECT o.Oname
+FROM Owner o
+WHERE EXISTS (
+  SELECT 1
+  FROM Pet p1
+  JOIN Pet p2
+    ON p1.OwnerId = p2.OwnerId
+   AND p1.Species <> p2.Species
+  WHERE p1.OwnerId = o.OwnerId
+);
+```
+
+
+```sql
+SELECT o.Oname
+FROM Owner o
+WHERE EXISTS (
+  SELECT 1
+  FROM Pet p
+  WHERE p.OwnerId = o.OwnerId
+  GROUP BY p.OwnerId
+  HAVING COUNT(DISTINCT p.Species) >= 2
+);
+```
+
+
+
+
+#### 补充练习2
+
+表结构：
+
+- Product(Pid, Pname, Brand, Category, LaunchDate)
+
+- Customer(Cid, Cname, City, RegDate, Level)
+
+- OrderItem(Oid, Pid, Cid, OrderDate, UnitPrice, Quantity)
+##### (1) 查询 2023 年注册客户购买过的所有产品名 Pname 和品牌 Brand（去重）
+
+```sql
+SELECT DISTINCT p.Pname, p.Brand
+FROM Customer c
+JOIN OrderItem oi ON oi.Cid = c.Cid
+JOIN Product p ON p.Pid = oi.Pid
+WHERE c.RegDate >= DATE '2023-01-01'
+  AND c.RegDate <  DATE '2024-01-01';
+```
+
+---
+
+##### (2) 找出从未购买过 “Apple” 品牌商品的 Gold 或 Platinum 会员的客户ID和姓名
+
+```sql
+SELECT c.Cid, c.Cname
+FROM Customer c
+WHERE c.Level IN ('Gold', 'Platinum')
+  AND NOT EXISTS (
+    SELECT 1
+    FROM OrderItem oi
+    JOIN Product p ON p.Pid = oi.Pid
+    WHERE oi.Cid = c.Cid
+      AND p.Brand = 'Apple'
+  );
+
+```
+---
+
+##### (3) 列出 2024 年下单总金额超过 5000 的客户姓名、城市及 2024 总消费额，按消费额降序
+```sql
+SELECT
+  c.Cname,
+  c.City,
+  SUM(oi.UnitPrice * oi.Quantity) AS TotalAmount2024
+FROM Customer c
+JOIN OrderItem oi ON oi.Cid = c.Cid
+WHERE oi.OrderDate >= DATE '2024-01-01'
+  AND oi.OrderDate <  DATE '2025-01-01'
+GROUP BY c.Cid, c.Cname, c.City
+HAVING SUM(oi.UnitPrice * oi.Quantity) > 5000
+ORDER BY TotalAmount2024 DESC;
+```
+
+总金额 = `SUM(UnitPrice * Quantity)`
+
+---
+
+##### (4) 使用 EXISTS 嵌套：找出至少购买过 3 种不同类别商品的客户姓名
+
+```sql
+SELECT c.Cname
+FROM Customer c
+WHERE EXISTS (
+  SELECT 1
+  FROM OrderItem oi1
+  JOIN Product p1 ON p1.Pid = oi1.Pid
+  WHERE oi1.Cid = c.Cid
+    AND EXISTS (
+      SELECT 1
+      FROM OrderItem oi2
+      JOIN Product p2 ON p2.Pid = oi2.Pid
+      WHERE oi2.Cid = c.Cid
+        AND p2.Category <> p1.Category
+        AND EXISTS (
+          SELECT 1
+          FROM OrderItem oi3
+          JOIN Product p3 ON p3.Pid = oi3.Pid
+          WHERE oi3.Cid = c.Cid
+            AND p3.Category <> p1.Category
+            AND p3.Category <> p2.Category
+        )
+    )
+);
+```
+
+思路：对同一客户，存在 **三次购买记录**，且对应商品类别两两不同（等价于“至少3类”）。
+
+##### (5) 编写触发器：在向 OrderItem 表插入新记录时，若该客户的会员等级为 'Bronze'，且单笔订单金额超过 1000 元，则自动将该客户的会员等级升级为 'Silver'。
+
+```sql
+DELIMITER $$
+
+CREATE TRIGGER trg_upgrade_bronze_to_silver
+AFTER INSERT ON OrderItem
+FOR EACH ROW
+BEGIN
+  IF NEW.UnitPrice * NEW.Quantity > 1000 THEN
+    UPDATE Customer
+    SET Level = 'Silver'
+    WHERE Cid = NEW.Cid
+      AND Level = 'Bronze';
+  END IF;
+END$$
+
+DELIMITER ;
+```
