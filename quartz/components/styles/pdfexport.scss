@@ -1,0 +1,33 @@
+button.pdf-export {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: var(--dark);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    background-color: var(--lightgray);
+
+    svg {
+      opacity: 1;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
