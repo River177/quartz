@@ -24,8 +24,6 @@ document.addEventListener("nav", () => {
         logging: false,
         backgroundColor: window.getComputedStyle(document.documentElement).backgroundColor,
       })
-
-      const imgData = canvas.toDataURL("image/png")
       
       const pdf = new jsPDF({
         orientation: "portrait",
@@ -54,17 +52,36 @@ document.addEventListener("nav", () => {
       const scaledWidth = contentWidth
       const scaledHeight = imgHeightMM * ratio
       
-      let heightLeft = scaledHeight
-      let position = marginTop
+      let yOffset = 0
       
-      pdf.addImage(imgData, "PNG", marginLeft, position, scaledWidth, scaledHeight)
-      heightLeft -= contentHeight
-      
-      while (heightLeft > 0) {
-        position = -(scaledHeight - heightLeft) + marginTop
-        pdf.addPage()
-        pdf.addImage(imgData, "PNG", marginLeft, position, scaledWidth, scaledHeight)
-        heightLeft -= contentHeight
+      while (yOffset < scaledHeight) {
+        if (yOffset > 0) {
+          pdf.addPage()
+        }
+        
+        const remainingHeight = scaledHeight - yOffset
+        const pageContentHeight = Math.min(contentHeight, remainingHeight)
+        
+        const sourceY = (yOffset / scaledHeight) * imgHeight
+        const sourceHeight = (pageContentHeight / scaledHeight) * imgHeight
+        
+        const croppedCanvas = document.createElement('canvas')
+        croppedCanvas.width = imgWidth
+        croppedCanvas.height = sourceHeight
+        
+        const ctx = croppedCanvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(
+            canvas,
+            0, sourceY, imgWidth, sourceHeight,
+            0, 0, imgWidth, sourceHeight
+          )
+          
+          const croppedImgData = croppedCanvas.toDataURL('image/png')
+          pdf.addImage(croppedImgData, 'PNG', marginLeft, marginTop, scaledWidth, pageContentHeight)
+        }
+        
+        yOffset += contentHeight
       }
 
       const title = document.querySelector("h1.article-title")?.textContent || "document"
