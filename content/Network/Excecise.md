@@ -913,7 +913,7 @@ $t = \tau = 325$
 
 $t_B \approx 325^-$
 
-B 的信号再传播回 A 也要$ \tau=325 $比特时间，所以 B 的信号到达 A 的最晚时间：
+B 的信号再传播回 A 也要$\tau=325$比特时间，所以 B 的信号到达 A 的最晚时间：
 
 $t_{\text{arrive at A}} = t_B + \tau \approx 325 + 325 = 650 \ \text{比特时间}$
 
@@ -934,7 +934,7 @@ $t_{\text{arrive at A}} = t_B + \tau \approx 325 + 325 = 650 \ \text{比特时�
 
 已知数据率 $R=1\text{ Gb/s}=10^9\text{ bit/s}$
 
-最小帧长度减少$ \Delta L = 800 bit$
+最小帧长度减少$\Delta L = 800 bit$
 
 则最小帧发送时间减少：
 
@@ -944,7 +944,7 @@ $\Delta T = \frac{\Delta L}{R}=\frac{800}{10^9}=8\times 10^{-7}\text{ s}=0.8\ \m
 
 $\Delta(2\tau)=0.8\ \mu s \Rightarrow \Delta \tau = 0.4\ \mu s$
 
-信号传播速率$ v=200000\text{ km/s}=2\times 10^8\text{ m/s}$
+信号传播速率$v=200000\text{ km/s}=2\times 10^8\text{ m/s}$
 
 端到端最大距离（两站点最远距离）需要减少：
 
