@@ -232,7 +232,7 @@ typora-copy-images-to: ./imgs
    - 提供与上层的接口；
    - 实现流量控制、差错控制。
 
-1. **媒体访问控制子层（MAC）** Medium Access Control
+2. **媒体访问控制子层（MAC）** Medium Access Control
    - 控制对共享介质的访问；
    - 实现帧的封装、地址识别、差错检测。
 
