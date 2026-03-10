@@ -14,7 +14,7 @@
 
 # Graph Prompt Learning: A Comprehensive Survey and Beyond
 
-[arxiv链接$$(https://arxiv.org/abs/2311.16534)]
+[arxiv链接(https://arxiv.org/abs/2311.16534)]
 
 ---
 
