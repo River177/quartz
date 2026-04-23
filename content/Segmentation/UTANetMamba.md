@@ -345,3 +345,4 @@ GatedAttention 的 forward：
 ---
 
 如果你希望我把 **Decoder4/3/2/1 内部每一路特征是“pool 还是 upsample”，以及 pool 的 kernel/stride（比如 224→112 用 (2,2)）** 也列成更细的 trace（会更长但更“逐条可复现”），我也可以继续把表格扩展到那个粒度。
+
