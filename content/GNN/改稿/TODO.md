@@ -14,4 +14,6 @@
 动态图(Dynamic Graphs)
 
 目前移出HetGPT和P2TAG
+已新增UniPrompt
 新增 Self-Pro / PSP / EdgePrompt / ProNoG / SUPT
+
